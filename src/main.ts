@@ -1,5 +1,3 @@
-async function main() {
-  console.log('Hello world');
-}
+import { start } from './cli/scripts/start';
 
-main();
+start();
