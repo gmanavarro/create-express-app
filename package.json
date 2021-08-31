@@ -1,0 +1,50 @@
+{
+  "name": "create-express-app",
+  "version": "0.0.1",
+  "description": "CLI application to bootstrap express applications with basic configuration for Typescript, ESLint and Docker",
+  "main": "main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/main.ts",
+    "test": "test"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "cli"
+  ],
+  "author": "Germán Navarro",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.1.2"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^7.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "jest": "^27.1.0",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "test",
+    "testRegex": ".*\\.test\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
