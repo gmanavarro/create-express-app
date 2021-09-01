@@ -12,7 +12,7 @@
     "start": "npm run build && node dist/main.js",
     "start:dev": "nodemon --legacy-watch \"./src/main.ts\" --exec \"npx ts-node src/main.ts\"",
     "publish:npm": "npm run build && npm publish --access public",
-    "test": "test"
+    "test": "echo No tests specified\n"
   },
   "keywords": [
     "nodejs",
