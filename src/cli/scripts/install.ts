@@ -1,51 +1,43 @@
-import { series } from 'async';
-import { exec } from 'child_process';
+import * as childProcess from 'child_process';
+import util from 'util';
 import chalk from 'chalk';
-import ora, { Ora } from 'ora';
+import ora from 'ora';
+import { existsSync, mkdirSync } from 'fs';
 import { dependencies, devDependencies } from '../dependencies';
 
-async function executeCommand(command: string) {
-  await exec(command, (error) => {
-    if (error) {
-      throw error;
-    }
-  });
+const exec = util.promisify(childProcess.exec);
+
+async function executeCommand(command: string, loadingMessage: string) {
+  const spinner = ora({ color: 'blue', text: loadingMessage, interval: 100 });
+  spinner.start();
+  const { stderr } = await exec(command);
+  if (stderr) {
+    spinner.stop();
+    console.error(`Error ${loadingMessage.toLowerCase()}`);
+    console.error(stderr);
+    throw stderr;
+  }
+  spinner.succeed();
 }
 
 export async function installProject(path: string) {
-  console.log(chalk.bold('Please wait, this may take a few minutes'));
-  const loadingMessage = ora('Initializing git repository');
-  series([
-    async () => {
-      loadingMessage.color = 'red';
-      loadingMessage.start();
-      await executeCommand(`git init ${path}`).catch((error) => {
-        loadingMessage.stop();
-        console.error('Error initializing git repository');
-        console.error(error);
-      });
-    },
-    async () => {
-      loadingMessage.color = 'green';
-      loadingMessage.text = 'Installing dependencies';
-      await executeCommand(
-        `npm i --prefix ${path} ${dependencies.join(' ')}`,
-      ).catch((error) => {
-        loadingMessage.stop();
-        console.error('Error installing dependencies');
-        console.error(error);
-      });
-    },
-    async () => {
-      loadingMessage.color = 'blue';
-      loadingMessage.text = 'Installing dev dependencies';
-      await executeCommand(
-        `npm i -D --prefix ${path} ${devDependencies.join(' ')}`,
-      ).catch((error) => {
-        loadingMessage.stop();
-        console.error('Error installing dev dependencies');
-        console.error(error);
-      });
-    },
-  ]);
+  if (!existsSync(path)) {
+    mkdirSync(path);
+  }
+
+  console.log(chalk.bold('\nPlease wait, this may take a few minutes...\n'));
+
+  await executeCommand(`git init ${path}`, 'Initializing git repository');
+
+  await executeCommand(
+    `npm i --prefix ${path} ${dependencies.join(' ')}`,
+    'Installing dependencies',
+  );
+
+  await executeCommand(
+    `npm i -D --prefix ${path} ${devDependencies.join(' ')}`,
+    'Installing dev dependencies',
+  );
+
+  console.log(`\nProject installed at ${chalk.bold(path)}`);
 }
