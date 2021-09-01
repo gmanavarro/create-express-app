@@ -1,7 +1,7 @@
 {
-  "name": "create-express-app",
+  "name": "@gmanavarro/create-express-app",
   "version": "0.0.1",
-  "description": "CLI application to initialize template Express applications with default development configuration.",
+  "description": "Create Express App - CLI application to initialize template Express applications with default development configuration.",
   "main": "main.js",
   "scripts": {
     "build": "rimraf dist && tsc",
