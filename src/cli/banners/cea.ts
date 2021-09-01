@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 export function showCreateExpressAppBanner() {
   console.log(
-    chalk.blue(
+    chalk.cyan(
       '                                __     \n' +
         '          _____________  ____ _/ /____ \n' +
         '         / ___/ ___/ _ \\/ __ `/ __/ _ \\\n' +
