@@ -39,5 +39,5 @@ export async function installProject(path: string) {
     'Installing dev dependencies',
   );
 
-  console.log(`\nProject installed at ${chalk.bold(path)}`);
+  console.log(`\nProject created at ${chalk.cyan(path)}`);
 }
