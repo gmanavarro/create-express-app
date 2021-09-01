@@ -2,10 +2,14 @@
   "name": "@gmanavarro/create-express-app",
   "version": "0.0.1",
   "description": "Create Express App - CLI application to initialize template Express applications with default development configuration.",
+  "bin": "main.js",
   "main": "main.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rimraf dist && tsc",
-    "start": "tsc && node dist/main.js",
+    "start": "npm run build && node dist/main.js",
     "start:dev": "nodemon --legacy-watch \"./src/main.ts\" --exec \"npx ts-node src/main.ts\"",
     "publish:npm": "npm run build && npm publish --access public",
     "test": "test"
