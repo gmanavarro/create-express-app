@@ -14,7 +14,7 @@ export function showCreateExpressAppBanner() {
         '        /_// __ `/ __ \\/ __ \\          \n' +
         '          / /_/ / /_/ / /_/ /          \n' +
         '          \\__,_/ .___/ .___/           \n' +
-        '              /_/   /_/                \n\n',
+        '              /_/   /_/                \n',
     ),
   );
 }

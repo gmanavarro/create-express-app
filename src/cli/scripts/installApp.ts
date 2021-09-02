@@ -2,30 +2,33 @@ import * as childProcess from 'child_process';
 import util from 'util';
 import chalk from 'chalk';
 import ora from 'ora';
-import { existsSync, mkdirSync } from 'fs';
+import { existsSync } from 'fs';
+import { mkdir } from 'fs/promises';
 import { dependencies, devDependencies } from '../dependencies';
 
 const exec = util.promisify(childProcess.exec);
 
-async function executeCommand(command: string, loadingMessage: string) {
-  const spinner = ora({ color: 'blue', text: loadingMessage, interval: 100 });
+async function executeCommand(
+  command: string,
+  loadingMessage: string,
+): Promise<void> {
+  const spinner = ora({ color: 'cyan', text: loadingMessage, interval: 100 });
   spinner.start();
   const { stderr } = await exec(command);
   if (stderr) {
     spinner.stop();
     console.error(`Error ${loadingMessage.toLowerCase()}`);
-    console.error(stderr);
-    throw stderr;
+    throw Error(stderr);
   }
   spinner.succeed();
 }
 
-export async function installProject(path: string) {
+export async function installApp(path: string) {
   if (!existsSync(path)) {
-    mkdirSync(path);
+    await mkdir(path);
   }
 
-  console.log(chalk.bold('\nPlease wait, this may take a few minutes...\n'));
+  // console.log(chalk.bold('\nPlease wait, this may take a while...\n'));
 
   await executeCommand(`git init ${path}`, 'Initializing git repository');
 
@@ -39,5 +42,5 @@ export async function installProject(path: string) {
     'Installing dev dependencies',
   );
 
-  console.log(`\nProject created at ${chalk.cyan(path)}`);
+  console.log(`\nApp installed at ${chalk.cyan(path)}`);
 }
